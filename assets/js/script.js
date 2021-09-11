@@ -9,3 +9,6 @@ function timer(){
     },1000);
 }
 timer();
+scores.addEventListener("click", function(){
+    alert("clicked")
+});
