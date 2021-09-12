@@ -1,0 +1,48 @@
+header {
+display: flex;
+justify-content: space-between;
+}
+.header {
+    padding:1%;
+    display: inline-flex;
+}
+#scores {
+    margin-left: 20px ;
+}
+#times{
+    margin-right: 20px;
+}
+.question{    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.question h1{
+    width: 100%;
+    text-align: center;
+}
+.instructions{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.instructions p{
+    text-align: center;
+    width: auto;
+    font-size: large;
+}
+.choices{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.choices button{
+    text-align: center;
+    width: auto;
+    font-size: large;
+}
