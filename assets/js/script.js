@@ -2,8 +2,10 @@ var scoresEl = document.getElementById("scores");
 var instructionsEl = document.getElementById("instructions");
 var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
+var headerEl = document.getElementById("header");
 var i = 0;
-var sec = 59;
+var sec = 69;
+var score = 0;
 var questions = [
     {
         id: "1",
@@ -49,10 +51,10 @@ function timer() {
         document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
         sec--;
         if (sec < 0) {
-            clearInterval(timer)
+            clearInterval(timer);
         }
     }, 1000);
-    return timer
+    return sec
 }
 
 var quizStart = function () {
@@ -94,6 +96,7 @@ var quizStart = function () {
         var correctAnswer = questions[i].correct
  }
  var quiz = function() {
+     if(i<questions.length){
     questionsEl.textContent = questions[i].question;
      
     answer1ButtonEl.textContent = questions[i].one;
@@ -104,8 +107,45 @@ var quizStart = function () {
 
     answer4ButtonEl.textContent = questions[i].four;
      correctAnswer = questions[i].correct
+     }
+     else{
+         alert("finished!");
+         endTimer();
+         finishedScreen();
+     }
  }
-console.log(timer);
+
+ var endTimer =function(){
+    document.getElementById("timer").style.display = 'none';
+    var timerFinishedEl = document.createElement("p");
+    timerFinishedEl.className = "finished";
+    timerFinishedEl.innerHTML = "Time: Finished!"
+    headerEl.appendChild(timerFinishedEl);
+ }
+ var finishedScreen = function(){
+     
+    answer1ButtonEl.style.display = "none";
+    answer2ButtonEl.style.display = "none";
+    answer3ButtonEl.style.display = "none";
+    answer4ButtonEl.style.display = "none";
+    questionsEl.textContent = "All done!";
+    instructionsEl.style.display = "block";
+    instructionsEl.innerHTML = "Your final score is " + score;
+
+    var submitInstructionsEl = document.createElement("p");
+    submitInstructionsEl.textContent = "Enter initials: "
+    choicesEl.appendChild(submitInstructionsEl);
+
+    var submitBoxEl = document.createElement("input");
+    submitBoxEl.type = "text";
+    choicesEl.appendChild(submitBoxEl);
+
+    var submitButtonEl = document.createElement("button");
+    submitButtonEl.textContent = "Submit";
+    submitButtonEl.className = "btn btn-submit";
+    submitButtonEl.id = "submit";
+    choicesEl.appendChild(submitButtonEl);
+ }
 
 choicesEl.addEventListener("click", function () {
 
@@ -113,7 +153,9 @@ var pickedAnswer = event.target.id
 if (pickedAnswer === correctAnswer) {
         document.getElementById('correct').innerHTML = "Correct!"
         i++;
-        quiz()
+        quiz();
+        score = sec;
+        console.log("score " +score);
  } else {
          sec = sec - 10;
         document.getElementById('correct').innerHTML = "Wrong!"
