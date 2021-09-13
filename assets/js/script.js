@@ -2,6 +2,8 @@ var scoresEl = document.getElementById("scores");
 var instructionsEl = document.getElementById("instructions");
 var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
+var i = 0;
+var sec = 59;
 var questions = [
     {
         id: "1",
@@ -12,11 +14,37 @@ var questions = [
         four: "4. numbers",
         correct: "three"
     },
+    {
+        id: "2",
+        question: "The condition in an if/else statment is enclosed with_______.",
+        one: "1. quotes",
+        two: "2. curley brackets",
+        three: "3. parenthesis",
+        four: "4. square brackets",
+        correct: "two"
+    },
+    {
+        id: "3",
+        question: "Arrays in JavaScript can be used to store",
+        one: "1. numbers and strings",
+        two: "2. other arrays",
+        three: "3. booleans",
+        four: "4. all of the above",
+        correct: "four"
+    },
+    {
+        id: "4",
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        one: "1. JavaScript",
+        two: "2. terminal/bash",
+        three: "3. for loops",
+        four: "4. console.log",
+        correct: "four"
+    },
 ]
 
 
 function timer() {
-    var sec = 59;
     var timer = setInterval(function () {
         document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
         sec--;
@@ -24,13 +52,16 @@ function timer() {
             clearInterval(timer)
         }
     }, 1000);
+    return timer
 }
 
-var quiz = function () {
-    for (var i = 0; i < questions.length; i++) {
+var quizStart = function () {
+ {
+
 
         instructionsEl.style.display = "none"
         document.getElementById("start-button").style.display = 'none';
+
         questionsEl.textContent = questions[i].question;
 
         var answer1ButtonEl = document.createElement("button");
@@ -60,39 +91,37 @@ var quiz = function () {
         answer4ButtonEl.id = "four";
         choicesEl.appendChild(answer4ButtonEl);
         var answer4El = document.querySelector(".btn-four");
-
-
         var correctAnswer = questions[i].correct
-        console.log(correctAnswer)
-        choicesEl.addEventListener("click", function () {
+ }
+ var quiz = function() {
+    questionsEl.textContent = questions[i].question;
+     
+    answer1ButtonEl.textContent = questions[i].one;
+    
+    answer2ButtonEl.textContent = questions[i].two;
+    
+    answer3ButtonEl.textContent = questions[i].three;
 
-            var pickedAnswer = event.target.id
-            console.log(pickedAnswer);
+    answer4ButtonEl.textContent = questions[i].four;
+     correctAnswer = questions[i].correct
+ }
+console.log(timer);
 
-            if (pickedAnswer === correctAnswer) {
-                alert("correct!");
-                //todo: display next question
-                document.getElementById('correct').innerHTML = "Correct!"
-            } else {
-                timer = timer - 10;
-                document.getElementById('correct').innerHTML = "Wrong!"
+choicesEl.addEventListener("click", function () {
 
-            }
-            return pickedAnswer;
+var pickedAnswer = event.target.id
+if (pickedAnswer === correctAnswer) {
+        document.getElementById('correct').innerHTML = "Correct!"
+        i++;
+        quiz()
+ } else {
+         sec = sec - 10;
+        document.getElementById('correct').innerHTML = "Wrong!"
+
+        }
         })
-
-        // console.log(pickedAnswer)
-        // if (pickedAnswer === correctAnswer) {
-        //     alert("correct!")
-        // }
-        // else{
-        //       timer =timer-10;
-        //       var wrongEl = document.createElement(div)
-        //  }
-
-
     }
-}
+
 var startPage = function () {
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
@@ -108,5 +137,5 @@ scoresEl.addEventListener("click", function () {
 });
 startEl.addEventListener("click", function () {
     timer();
-    quiz();
+    quizStart();
 });
