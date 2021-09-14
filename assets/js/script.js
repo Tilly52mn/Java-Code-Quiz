@@ -4,8 +4,13 @@ var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
 var headerEl = document.getElementById("header");
 var i = 0;
+var answer1ButtonEl = null;
+var answer2ButtonEl = null;
+var answer3ButtonEl = null;
+var answer4ButtonEl = null;
 var sec = 69;
 var score = 0;
+var highScores = []
 var questions = [
     {
         id: "1",
@@ -58,43 +63,41 @@ function timer() {
 }
 
 var quizStart = function () {
- {
-
 
         instructionsEl.style.display = "none"
         document.getElementById("start-button").style.display = 'none';
 
         questionsEl.textContent = questions[i].question;
 
-        var answer1ButtonEl = document.createElement("button");
+        answer1ButtonEl = document.createElement("button");
         answer1ButtonEl.textContent = questions[i].one;
         answer1ButtonEl.className = "btn btn-one";
         answer1ButtonEl.id = "one";
         choicesEl.appendChild(answer1ButtonEl);
         var answer1El = document.querySelector(".btn-one");
 
-        var answer2ButtonEl = document.createElement("button");
+        answer2ButtonEl = document.createElement("button");
         answer2ButtonEl.textContent = questions[i].two;
         answer2ButtonEl.className = "btn btn-two";
         answer2ButtonEl.id = "two";
         choicesEl.appendChild(answer2ButtonEl);
         var answer2El = document.querySelector(".btn-two");
 
-        var answer3ButtonEl = document.createElement("button");
+        answer3ButtonEl = document.createElement("button");
         answer3ButtonEl.textContent = questions[i].three;
         answer3ButtonEl.className = "btn btn-three";
         answer3ButtonEl.id = "three";
         choicesEl.appendChild(answer3ButtonEl);
         var answer3El = document.querySelector(".btn-three");
 
-        var answer4ButtonEl = document.createElement("button");
+        answer4ButtonEl = document.createElement("button");
         answer4ButtonEl.textContent = questions[i].four;
         answer4ButtonEl.className = "btn btn-four";
         answer4ButtonEl.id = "four";
         choicesEl.appendChild(answer4ButtonEl);
         var answer4El = document.querySelector(".btn-four");
         var correctAnswer = questions[i].correct
- }
+
  var quiz = function() {
      if(i<questions.length){
     questionsEl.textContent = questions[i].question;
@@ -114,6 +117,23 @@ var quizStart = function () {
          finishedScreen();
      }
  }
+ choicesEl.addEventListener("click", function () {
+
+    var pickedAnswer = event.target.id
+    if (pickedAnswer === correctAnswer) {
+            document.getElementById('correct').innerHTML = "Correct!"
+            i++;
+            quiz();
+            score = sec;
+            console.log("score " +score);
+     } else {
+             sec = sec - 10;
+            document.getElementById('correct').innerHTML = "Wrong!"
+    
+            }
+            })
+        }
+
 
  var endTimer =function(){
     document.getElementById("timer").style.display = 'none';
@@ -138,6 +158,7 @@ var quizStart = function () {
 
     var submitBoxEl = document.createElement("input");
     submitBoxEl.type = "text";
+    submitBoxEl.name = "initals";
     choicesEl.appendChild(submitBoxEl);
 
     var submitButtonEl = document.createElement("button");
@@ -145,39 +166,32 @@ var quizStart = function () {
     submitButtonEl.className = "btn btn-submit";
     submitButtonEl.id = "submit";
     choicesEl.appendChild(submitButtonEl);
- }
 
-choicesEl.addEventListener("click", function () {
+    submitButtonEl.addEventListener("submit", taskFormHandler);
 
-var pickedAnswer = event.target.id
-if (pickedAnswer === correctAnswer) {
-        document.getElementById('correct').innerHTML = "Correct!"
-        i++;
-        quiz();
-        score = sec;
-        console.log("score " +score);
- } else {
-         sec = sec - 10;
-        document.getElementById('correct').innerHTML = "Wrong!"
-
-        }
-        })
+    var taskFormHandler = function(){
+        alert("hello")
+        event.preventDefault();
+        var initialsInput = document.querySelector("input[name='initals']").value;
+        console.log(initialsInput);
     }
-
+}
 var startPage = function () {
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
     startButtonEl.className = "btn start-quiz";
     startButtonEl.id = "start-button"
     choicesEl.appendChild(startButtonEl);
+    document.getElementById("start-button").addEventListener("click", function () {
+        timer();
+        quizStart();
+    });
 }
 
+
+// var startEl = document.querySelector(".start-quiz");
+// scoresEl.addEventListener("click", function () {
+//     alert("clicked")
+// });
+
 startPage()
-var startEl = document.querySelector(".start-quiz");
-scoresEl.addEventListener("click", function () {
-    alert("clicked")
-});
-startEl.addEventListener("click", function () {
-    timer();
-    quizStart();
-});
