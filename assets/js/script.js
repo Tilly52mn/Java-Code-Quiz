@@ -14,6 +14,7 @@ var answer4ButtonEl = null;
 var sec = 69;
 var score = 0;
 var highScores = []
+var scoreObj = []
 var scoreIdCounter = 0
 
 var questions = [
@@ -117,7 +118,6 @@ var quizStart = function () {
      correctAnswer = questions[i].correct
      }
      else{
-         alert("finished!");
          endTimer();
          finishedScreen();
      }
@@ -180,10 +180,9 @@ var finishedScreen = function(){
     console.log("score " +score);
 
     submitButtonEl.addEventListener("click", function(){
-        alert("hello");
         var initialsInput = document.querySelector("input[name='initals']").value
         console.log(initialsInput);
-        var scoreObj = {
+        scoreObj = {
             initals : initialsInput,
             roundscore : score,
         }
@@ -213,11 +212,20 @@ var scoreScreen = function(){
 
     var scoresEl = document.createElement("div");
     scoreScreenEl.appendChild(scoresEl);
-// Load high scores
+
     var scoreScreenButtonsEl = document.createElement("div");
     scoreScreenEl.appendChild(scoreScreenButtonsEl);
-
+console.log
     var scoreListEl = document.createElement("ol")
+    highScores.sort((a,b) => {
+        return a.roundscore - b.roundscore;
+    });
+    
+    for (i=0; i<highScores.length; i++ ){
+    var scoreRecordEl = document.createElement("li")
+    scoreRecordEl.textContent = highScores[i].initals + " - " + highScores[i].roundscore;
+    scoreListEl.appendChild(scoreRecordEl);
+    }
     scoresEl.appendChild(scoreListEl);
 
     var goBackButtonEl = document.createElement("button");
@@ -225,7 +233,7 @@ var scoreScreen = function(){
     goBackButtonEl.className = "btn go-back";
     goBackButtonEl.id = "back-btn";
     scoreScreenButtonsEl.appendChild(goBackButtonEl);
-
+//make reset function that hides and shows correct divs possibly deletes divs
     var clearScoresButtonEl = document.createElement("button");
     clearScoresButtonEl.textContent = "Clear high scores";
     clearScoresButtonEl.className = "btn clear-btn";
