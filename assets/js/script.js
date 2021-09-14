@@ -141,6 +141,7 @@ var quizStart = function () {
     document.getElementById("timer").style.display = 'none';
     var timerFinishedEl = document.createElement("p");
     timerFinishedEl.className = "finished";
+    timerFinishedEl.id = "finished";
     timerFinishedEl.innerHTML = "Time: Finished!"
     headerEl.appendChild(timerFinishedEl);
 }
@@ -164,6 +165,7 @@ var finishedScreen = function(){
 
     var submitInstructionsEl = document.createElement("p");
     submitInstructionsEl.textContent = "Enter initials: "
+    submitInstructionsEl.id = "submit-p";
     submitDivEl.appendChild(submitInstructionsEl);
 
     var submitBoxEl = document.createElement("input");
@@ -195,38 +197,44 @@ var finishedScreen = function(){
         scoreObj.id = scoreIdCounter;
 
         highScores.push(scoreObj);
-console.log(highScores)
         localStorage.setItem("highScores", JSON.stringify(highScores));
         scoreIdCounter++
+        submitDivEl.style.display = "none";
         scoreScreen()
     });
 }
 var scoreScreen = function(){
+
     
+    highScores = JSON.parse(localStorage.getItem("highScores"));
+
     questionsEl.textContent = "High scores";
-    submitDivEl.style.display = "none";
     instructionsEl.style.display = "none";
 
     var scoreScreenEl = document.createElement("div");
+    scoreScreenEl.id = "scoreScreenEl";
     bodyEl.appendChild(scoreScreenEl);
 
-    var scoresEl = document.createElement("div");
-    scoreScreenEl.appendChild(scoresEl);
+    var scoresRecordEl = document.createElement("div");
+    scoresRecordEl.id = "scoresRecordEl";
+    scoreScreenEl.appendChild(scoresRecordEl);
 
     var scoreScreenButtonsEl = document.createElement("div");
+    scoreScreenButtonsEl.id = "scoreScreenButtonsEl";
     scoreScreenEl.appendChild(scoreScreenButtonsEl);
-console.log
+
     var scoreListEl = document.createElement("ol")
+    scoreListEl.id = "scoreListEl";
     highScores.sort((a,b) => {
-        return a.roundscore - b.roundscore;
+        return b.roundscore - a.roundscore;
     });
-    
+
     for (i=0; i<highScores.length; i++ ){
     var scoreRecordEl = document.createElement("li")
     scoreRecordEl.textContent = highScores[i].initals + " - " + highScores[i].roundscore;
     scoreListEl.appendChild(scoreRecordEl);
     }
-    scoresEl.appendChild(scoreListEl);
+    scoresRecordEl.appendChild(scoreListEl);
 
     var goBackButtonEl = document.createElement("button");
     goBackButtonEl.textContent = "Go Back";
@@ -234,17 +242,49 @@ console.log
     goBackButtonEl.id = "back-btn";
     scoreScreenButtonsEl.appendChild(goBackButtonEl);
 //make reset function that hides and shows correct divs possibly deletes divs
+
     var clearScoresButtonEl = document.createElement("button");
     clearScoresButtonEl.textContent = "Clear high scores";
     clearScoresButtonEl.className = "btn clear-btn";
     clearScoresButtonEl.id = "clear-btn";
     scoreScreenButtonsEl.appendChild(clearScoresButtonEl);
 
+    goBackButtonEl.addEventListener("click", function(){
+         submitDivEl = null;
+        i = 0;
+        answer1ButtonEl = null;
+        answer2ButtonEl = null;
+        answer3ButtonEl = null;
+        answer4ButtonEl = null;
+        sec = 69;
+        score = 0;
+        highScores = []
+        scoreObj = []
+        scoreIdCounter = 0 
+        document.getElementById("finished").remove();
+        document.getElementById("start-button").remove();
+        document.getElementById("one").remove();
+        document.getElementById("submit-p").remove();
+        document.getElementById("two").remove();
+        document.getElementById("three").remove();
+        document.getElementById("four").remove();
+        document.getElementById("submit-div").remove();
+        document.getElementById("scoreScreenEl").remove();
+        document.getElementById("timer").style.display = 'block';
+        clearTimeout(timer());
+        document.getElementById("timer").innerHTML = 'Time:Start the Quiz!';
+        document.getElementById("question").innerHTML = 'Welcome to the Javascript Code Quiz!';
+        document.getElementById("instructions").style.display = 'flex';
+        document.getElementById("instructions").innerHTML = 'Try answering the folowing Javascript code reatled questions within the time limit. <br> Incorrect asnwers will cause a 10 second penalty. <br> Your time left is your Score!';
+        startPage();
+    });
+
     clearScoresButtonEl.addEventListener("click", function(){
         localStorage.clear();
     })
 
 }
+
 var startPage = function () {
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
@@ -256,27 +296,9 @@ var startPage = function () {
         quizStart();
     });
 }
-
-var loadHighScores = function() {
-    var savedHighScores = localStorage.getItem("highScores");
-    // if there are no tasks, set tasks to an empty array and return out of the function
-    if (!savedHighScores) {
-      return false;
-    }
-    console.log("High scores found!");
-  
-    // parse into array of objects
-    savedHighScores = JSON.parse(savedHighScores);
-  
-    // loop through savedHighScores array
-    for (var i = 0; i < savedHighScores.length; i++) {
-      // pass each task object into the `createTaskEl()` function
-      createTaskEl(savedHighScores[i]);
-    }
-}
-// var startEl = document.querySelector(".start-quiz");
-// scoresEl.addEventListener("click", function () {
-//     alert("clicked")
-// });
+scoresEl.addEventListener("click", function(){
+    document.getElementById("start-button").style.display = 'none';
+    scoreScreen()
+});
 
 startPage()
