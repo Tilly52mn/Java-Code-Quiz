@@ -3,7 +3,11 @@ var instructionsEl = document.getElementById("instructions");
 var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
 var headerEl = document.getElementById("header");
+var bodyEl = document.getElementById("body");
+var correctEl = document.getElementById("correct")
+var submitDivEl = null;
 var i = 0;
+var scoreIdCounter = 0
 var answer1ButtonEl = null;
 var answer2ButtonEl = null;
 var answer3ButtonEl = null;
@@ -129,11 +133,9 @@ var quizStart = function () {
      } else {
              sec = sec - 10;
             document.getElementById('correct').innerHTML = "Wrong!"
-    
             }
-            })
-        }
-
+         })
+ }
 
  var endTimer =function(){
     document.getElementById("timer").style.display = 'none';
@@ -141,40 +143,77 @@ var quizStart = function () {
     timerFinishedEl.className = "finished";
     timerFinishedEl.innerHTML = "Time: Finished!"
     headerEl.appendChild(timerFinishedEl);
- }
- var finishedScreen = function(){
+}
+
+var finishedScreen = function(){
      
     answer1ButtonEl.style.display = "none";
     answer2ButtonEl.style.display = "none";
     answer3ButtonEl.style.display = "none";
     answer4ButtonEl.style.display = "none";
+    answer4ButtonEl.style.display = "none";
+    correctEl.style.display = "none";
     questionsEl.textContent = "All done!";
     instructionsEl.style.display = "block";
     instructionsEl.innerHTML = "Your final score is " + score;
 
+    submitDivEl = document.createElement("div");
+    submitDivEl.className = "submit-div";
+    submitDivEl.id = "submit-div";
+    bodyEl.appendChild(submitDivEl);
+
     var submitInstructionsEl = document.createElement("p");
     submitInstructionsEl.textContent = "Enter initials: "
-    choicesEl.appendChild(submitInstructionsEl);
+    submitDivEl.appendChild(submitInstructionsEl);
 
     var submitBoxEl = document.createElement("input");
     submitBoxEl.type = "text";
     submitBoxEl.name = "initals";
-    choicesEl.appendChild(submitBoxEl);
+    submitDivEl.appendChild(submitBoxEl);
 
     var submitButtonEl = document.createElement("button");
     submitButtonEl.textContent = "Submit";
     submitButtonEl.className = "btn btn-submit";
-    submitButtonEl.id = "submit";
-    choicesEl.appendChild(submitButtonEl);
+    submitButtonEl.id = "submit-btn";
+    submitDivEl.appendChild(submitButtonEl);
 
-    submitButtonEl.addEventListener("submit", taskFormHandler);
-
-    var taskFormHandler = function(){
-        alert("hello")
-        event.preventDefault();
-        var initialsInput = document.querySelector("input[name='initals']").value;
+    submitButtonEl.addEventListener("click", function(){
+        alert("hello");
+        var initialsInput = document.querySelector("input[name='initals']").value
         console.log(initialsInput);
-    }
+        scoreScreen()
+    });
+}
+var scoreScreen = function(){
+    
+    questionsEl.textContent = "High scores";
+    submitDivEl.style.display = "none";
+    instructionsEl.style.display = "none";
+
+    var scoreScreenEl = document.createElement("div");
+    bodyEl.appendChild(scoreScreenEl);
+
+    var scoresEl = document.createElement("div");
+    scoreScreenEl.appendChild(scoresEl);
+
+    var scoreScreenButtonsEl = document.createElement("div");
+    scoreScreenEl.appendChild(scoreScreenButtonsEl);
+
+    var scoreListEl = document.createElement("ol")
+    scoresEl.appendChild(scoreListEl);
+
+    var goBackButtonEl = document.createElement("button");
+    goBackButtonEl.textContent = "Go Back";
+    goBackButtonEl.className = "btn go-back";
+    goBackButtonEl.id = "back-btn";
+    scoreScreenButtonsEl.appendChild(goBackButtonEl);
+
+    var clearScoresButtonEl = document.createElement("button");
+    clearScoresButtonEl.textContent = "Clear high scores";
+    clearScoresButtonEl.className = "btn clear-btn";
+    clearScoresButtonEl.id = "clear-btn";
+    scoreScreenButtonsEl.appendChild(clearScoresButtonEl);
+
 }
 var startPage = function () {
     var startButtonEl = document.createElement("button");
@@ -188,7 +227,23 @@ var startPage = function () {
     });
 }
 
-
+var loadHighScores = function() {
+    var savedHighScores = localStorage.getItem("highScores");
+    // if there are no tasks, set tasks to an empty array and return out of the function
+    if (!savedHighScores) {
+      return false;
+    }
+    console.log("High scores found!");
+  
+    // parse into array of objects
+    savedHighScores = JSON.parse(savedHighScores);
+  
+    // loop through savedHighScores array
+    for (var i = 0; i < savedHighScores.length; i++) {
+      // pass each task object into the `createTaskEl()` function
+      createTaskEl(savedHighScores[i]);
+    }
+}
 // var startEl = document.querySelector(".start-quiz");
 // scoresEl.addEventListener("click", function () {
 //     alert("clicked")
