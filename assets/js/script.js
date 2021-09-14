@@ -7,7 +7,6 @@ var bodyEl = document.getElementById("body");
 var correctEl = document.getElementById("correct")
 var submitDivEl = null;
 var i = 0;
-var scoreIdCounter = 0
 var answer1ButtonEl = null;
 var answer2ButtonEl = null;
 var answer3ButtonEl = null;
@@ -15,6 +14,8 @@ var answer4ButtonEl = null;
 var sec = 69;
 var score = 0;
 var highScores = []
+var scoreIdCounter = 0
+
 var questions = [
     {
         id: "1",
@@ -129,7 +130,6 @@ var quizStart = function () {
             i++;
             quiz();
             score = sec;
-            console.log("score " +score);
      } else {
              sec = sec - 10;
             document.getElementById('correct').innerHTML = "Wrong!"
@@ -177,10 +177,28 @@ var finishedScreen = function(){
     submitButtonEl.id = "submit-btn";
     submitDivEl.appendChild(submitButtonEl);
 
+    console.log("score " +score);
+
     submitButtonEl.addEventListener("click", function(){
         alert("hello");
         var initialsInput = document.querySelector("input[name='initals']").value
         console.log(initialsInput);
+        var scoreObj = {
+            initals : initialsInput,
+            roundscore : score,
+        }
+        var savedHighScores = localStorage.getItem("highScores");
+        highScores = JSON.parse(savedHighScores);
+        if(highScores===null){
+            highScores = []
+        }
+        scoreIdCounter = highScores.length;
+        scoreObj.id = scoreIdCounter;
+
+        highScores.push(scoreObj);
+console.log(highScores)
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+        scoreIdCounter++
         scoreScreen()
     });
 }
@@ -195,7 +213,7 @@ var scoreScreen = function(){
 
     var scoresEl = document.createElement("div");
     scoreScreenEl.appendChild(scoresEl);
-
+// Load high scores
     var scoreScreenButtonsEl = document.createElement("div");
     scoreScreenEl.appendChild(scoreScreenButtonsEl);
 
@@ -213,6 +231,10 @@ var scoreScreen = function(){
     clearScoresButtonEl.className = "btn clear-btn";
     clearScoresButtonEl.id = "clear-btn";
     scoreScreenButtonsEl.appendChild(clearScoresButtonEl);
+
+    clearScoresButtonEl.addEventListener("click", function(){
+        localStorage.clear();
+    })
 
 }
 var startPage = function () {
