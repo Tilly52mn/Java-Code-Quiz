@@ -4,22 +4,29 @@ var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
 var headerEl = document.getElementById("header");
 var bodyEl = document.getElementById("body");
-var correctEl = document.getElementById("correct")
+var correctEl = document.getElementById("correct");
+var timerEl = document.getElementById("timer");
 var submitDivEl = null;
-var i = 0;
 var answer1ButtonEl = null;
 var answer2ButtonEl = null;
 var answer3ButtonEl = null;
 var answer4ButtonEl = null;
-var sec = 69;
+var sec = 59;
+var i = 0;
 var score = 0;
 var highScores = []
 var scoreObj = []
 var scoreIdCounter = 0
+var timerId = null
+var pickedAnswer = null
+
+// Issues left :
+//Timer wont stop
+// after restarting things start to blowup
 
 var questions = [
     {
-        id: "1",
+        id: "0",
         question: "Commonly used data types DO Not Include",
         one: "1. strings",
         two: "2. booleans",
@@ -28,7 +35,7 @@ var questions = [
         correct: "three"
     },
     {
-        id: "2",
+        id: "1",
         question: "The condition in an if/else statment is enclosed with_______.",
         one: "1. quotes",
         two: "2. curley brackets",
@@ -37,7 +44,7 @@ var questions = [
         correct: "two"
     },
     {
-        id: "3",
+        id: "2",
         question: "Arrays in JavaScript can be used to store",
         one: "1. numbers and strings",
         two: "2. other arrays",
@@ -46,7 +53,7 @@ var questions = [
         correct: "four"
     },
     {
-        id: "4",
+        id: "3",
         question: "A very useful tool used during development and debugging for printing content to the debugger is:",
         one: "1. JavaScript",
         two: "2. terminal/bash",
@@ -58,88 +65,107 @@ var questions = [
 
 
 function timer() {
-    var timer = setInterval(function () {
+     timerId = setInterval(function () {
         document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
         sec--;
         if (sec < 0) {
-            clearInterval(timer);
+            clearInterval(timerId);
         }
     }, 1000);
     return sec
 }
-
 var quizStart = function () {
 
         instructionsEl.style.display = "none"
         document.getElementById("start-button").style.display = 'none';
 
-        questionsEl.textContent = questions[i].question;
+        // questionsEl.textContent = questions[i].question;
 
         answer1ButtonEl = document.createElement("button");
-        answer1ButtonEl.textContent = questions[i].one;
+        // answer1ButtonEl.textContent = questions[i].one;
         answer1ButtonEl.className = "btn btn-one";
         answer1ButtonEl.id = "one";
         choicesEl.appendChild(answer1ButtonEl);
         var answer1El = document.querySelector(".btn-one");
 
         answer2ButtonEl = document.createElement("button");
-        answer2ButtonEl.textContent = questions[i].two;
+        // answer2ButtonEl.textContent = questions[i].two;
         answer2ButtonEl.className = "btn btn-two";
         answer2ButtonEl.id = "two";
         choicesEl.appendChild(answer2ButtonEl);
         var answer2El = document.querySelector(".btn-two");
 
         answer3ButtonEl = document.createElement("button");
-        answer3ButtonEl.textContent = questions[i].three;
+        // answer3ButtonEl.textContent = questions[i].three;
         answer3ButtonEl.className = "btn btn-three";
         answer3ButtonEl.id = "three";
         choicesEl.appendChild(answer3ButtonEl);
         var answer3El = document.querySelector(".btn-three");
 
         answer4ButtonEl = document.createElement("button");
-        answer4ButtonEl.textContent = questions[i].four;
+        // answer4ButtonEl.textContent = questions[i].four;
         answer4ButtonEl.className = "btn btn-four";
         answer4ButtonEl.id = "four";
         choicesEl.appendChild(answer4ButtonEl);
         var answer4El = document.querySelector(".btn-four");
-        var correctAnswer = questions[i].correct
-
- var quiz = function() {
-     if(i<questions.length){
-    questionsEl.textContent = questions[i].question;
+        // var correctAnswer = questions[i].correct
+//  var quiz = function() {
+//      if(i<questions.length){
+//     questionsEl.textContent = questions[i].question;
      
-    answer1ButtonEl.textContent = questions[i].one;
+//     answer1ButtonEl.textContent = questions[i].one;
     
-    answer2ButtonEl.textContent = questions[i].two;
+//     answer2ButtonEl.textContent = questions[i].two;
     
-    answer3ButtonEl.textContent = questions[i].three;
+//     answer3ButtonEl.textContent = questions[i].three;
 
-    answer4ButtonEl.textContent = questions[i].four;
-     correctAnswer = questions[i].correct
-     }
-     else{
-         endTimer();
-         finishedScreen();
-     }
+//     answer4ButtonEl.textContent = questions[i].four;
+//      correctAnswer = questions[i].correct
+//      }
+//      else{
+//          endTimer();
+//          finishedScreen();
+//      }
+quiz()
  }
- choicesEl.addEventListener("click", function () {
+ choicesEl.addEventListener("click", function (event) {
 
-    var pickedAnswer = event.target.id
+     pickedAnswer = event.target.id
+     console.log(pickedAnswer);
+     console.log(correctAnswer);
     if (pickedAnswer === correctAnswer) {
             document.getElementById('correct').innerHTML = "Correct!"
             i++;
             quiz();
             score = sec;
+            pickedAnswer = null;
      } else {
              sec = sec - 10;
             document.getElementById('correct').innerHTML = "Wrong!"
             }
          })
- }
+
+ var quiz = function() {
+     if(i < questions.length){
+   questionsEl.textContent = questions[i].question;
+    
+   answer1ButtonEl.textContent = questions[i].one;
+   
+   answer2ButtonEl.textContent = questions[i].two;
+   
+   answer3ButtonEl.textContent = questions[i].three;
+
+   answer4ButtonEl.textContent = questions[i].four;
+    correctAnswer = questions[i].correct
+    }
+      else {  endTimer();
+        finishedScreen(); }
+}
 
  var endTimer =function(){
-    document.getElementById("timer").style.display = 'none';
+     clearInterval(timerId);
     var timerFinishedEl = document.createElement("p");
+    timerEl.style.display = "none"
     timerFinishedEl.className = "finished";
     timerFinishedEl.id = "finished";
     timerFinishedEl.innerHTML = "Time: Finished!"
@@ -204,7 +230,6 @@ var finishedScreen = function(){
     });
 }
 var scoreScreen = function(){
-
     
     highScores = JSON.parse(localStorage.getItem("highScores"));
 
@@ -241,7 +266,6 @@ var scoreScreen = function(){
     goBackButtonEl.className = "btn go-back";
     goBackButtonEl.id = "back-btn";
     scoreScreenButtonsEl.appendChild(goBackButtonEl);
-//make reset function that hides and shows correct divs possibly deletes divs
 
     var clearScoresButtonEl = document.createElement("button");
     clearScoresButtonEl.textContent = "Clear high scores";
@@ -256,10 +280,11 @@ var scoreScreen = function(){
         answer2ButtonEl = null;
         answer3ButtonEl = null;
         answer4ButtonEl = null;
-        sec = 69;
+        sec = 59;
         score = 0;
         highScores = []
         scoreObj = []
+        pickedAnswer = null
         scoreIdCounter = 0 
         document.getElementById("finished").remove();
         document.getElementById("start-button").remove();
@@ -267,11 +292,11 @@ var scoreScreen = function(){
         document.getElementById("submit-p").remove();
         document.getElementById("two").remove();
         document.getElementById("three").remove();
+        this.removeEventListener
         document.getElementById("four").remove();
         document.getElementById("submit-div").remove();
         document.getElementById("scoreScreenEl").remove();
         document.getElementById("timer").style.display = 'block';
-        clearTimeout(timer());
         document.getElementById("timer").innerHTML = 'Time:Start the Quiz!';
         document.getElementById("question").innerHTML = 'Welcome to the Javascript Code Quiz!';
         document.getElementById("instructions").style.display = 'flex';
@@ -281,16 +306,19 @@ var scoreScreen = function(){
 
     clearScoresButtonEl.addEventListener("click", function(){
         localStorage.clear();
+        scoreListEl.style.display = "none"
     })
 
 }
 
 var startPage = function () {
+    var startDivEl = document.createElement("div")
+    bodyEl.appendChild(startDivEl);
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
     startButtonEl.className = "btn start-quiz";
     startButtonEl.id = "start-button"
-    choicesEl.appendChild(startButtonEl);
+    startDivEl.appendChild(startButtonEl);
     document.getElementById("start-button").addEventListener("click", function () {
         timer();
         quizStart();

@@ -53,3 +53,17 @@ justify-content: space-between;
     text-align: center;
     justify-content: center;
 }
+#scoreScreenEl{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+#scoreScreenEl button{
+    background-color: blueviolet;
+    color: white;
+    font-size: larger;
+    border-radius: 5px;
+}
