@@ -62,7 +62,7 @@ var questions = [
         correct: "four"
     },
 ]
-
+correctEl.style.display = "none";
 
 function timer() {
      timerId = setInterval(function () {
@@ -79,53 +79,31 @@ var quizStart = function () {
         instructionsEl.style.display = "none"
         document.getElementById("start-button").style.display = 'none';
 
-        // questionsEl.textContent = questions[i].question;
-
         answer1ButtonEl = document.createElement("button");
-        // answer1ButtonEl.textContent = questions[i].one;
         answer1ButtonEl.className = "btn btn-one";
         answer1ButtonEl.id = "one";
         choicesEl.appendChild(answer1ButtonEl);
         var answer1El = document.querySelector(".btn-one");
 
         answer2ButtonEl = document.createElement("button");
-        // answer2ButtonEl.textContent = questions[i].two;
         answer2ButtonEl.className = "btn btn-two";
         answer2ButtonEl.id = "two";
         choicesEl.appendChild(answer2ButtonEl);
         var answer2El = document.querySelector(".btn-two");
 
         answer3ButtonEl = document.createElement("button");
-        // answer3ButtonEl.textContent = questions[i].three;
         answer3ButtonEl.className = "btn btn-three";
         answer3ButtonEl.id = "three";
         choicesEl.appendChild(answer3ButtonEl);
         var answer3El = document.querySelector(".btn-three");
 
         answer4ButtonEl = document.createElement("button");
-        // answer4ButtonEl.textContent = questions[i].four;
         answer4ButtonEl.className = "btn btn-four";
         answer4ButtonEl.id = "four";
         choicesEl.appendChild(answer4ButtonEl);
         var answer4El = document.querySelector(".btn-four");
-        // var correctAnswer = questions[i].correct
-//  var quiz = function() {
-//      if(i<questions.length){
-//     questionsEl.textContent = questions[i].question;
-     
-//     answer1ButtonEl.textContent = questions[i].one;
-    
-//     answer2ButtonEl.textContent = questions[i].two;
-    
-//     answer3ButtonEl.textContent = questions[i].three;
 
-//     answer4ButtonEl.textContent = questions[i].four;
-//      correctAnswer = questions[i].correct
-//      }
-//      else{
-//          endTimer();
-//          finishedScreen();
-//      }
+
 quiz()
  }
  choicesEl.addEventListener("click", function (event) {
@@ -134,12 +112,18 @@ quiz()
      console.log(pickedAnswer);
      console.log(correctAnswer);
     if (pickedAnswer === correctAnswer) {
+
+        correctEl.style.display = "flex";
             document.getElementById('correct').innerHTML = "Correct!"
             i++;
-            quiz();
             score = sec;
-            pickedAnswer = null;
+            // pickedAnswer = null;
+            setTimeout(() => { quiz(); }, 1000);
+            setTimeout(() => { document.getElementById('correct').innerHTML = ""; }, 1000);
+            setTimeout(() => { correctEl.style.display = "none"},1000)
+
      } else {
+            correctEl.style.display = "flex";
              sec = sec - 10;
             document.getElementById('correct').innerHTML = "Wrong!"
             }
@@ -249,6 +233,7 @@ var scoreScreen = function(){
     scoreScreenEl.appendChild(scoreScreenButtonsEl);
 
     var scoreListEl = document.createElement("ol")
+    scoreListEl.className = "scoreListEl";
     scoreListEl.id = "scoreListEl";
     highScores.sort((a,b) => {
         return b.roundscore - a.roundscore;
@@ -257,6 +242,7 @@ var scoreScreen = function(){
     for (i=0; i<highScores.length; i++ ){
     var scoreRecordEl = document.createElement("li")
     scoreRecordEl.textContent = highScores[i].initals + " - " + highScores[i].roundscore;
+    scoreRecordEl.className = "scoreLi"
     scoreListEl.appendChild(scoreRecordEl);
     }
     scoresRecordEl.appendChild(scoreListEl);
@@ -284,23 +270,25 @@ var scoreScreen = function(){
         score = 0;
         highScores = []
         scoreObj = []
-        pickedAnswer = null
         scoreIdCounter = 0 
-        document.getElementById("finished").remove();
-        document.getElementById("start-button").remove();
-        document.getElementById("one").remove();
-        document.getElementById("submit-p").remove();
-        document.getElementById("two").remove();
-        document.getElementById("three").remove();
+        if(pickedAnswer !== null, function(){
+            document.getElementById("finished").remove();
+            document.getElementById("start-button").remove();
+            document.getElementById("one").remove();
+            document.getElementById("submit-p").remove();
+            document.getElementById("two").remove();
+            document.getElementById("three").remove();
+            document.getElementById("four").remove();
+            document.getElementById("submit-div").remove();
+        })
         this.removeEventListener
-        document.getElementById("four").remove();
-        document.getElementById("submit-div").remove();
         document.getElementById("scoreScreenEl").remove();
         document.getElementById("timer").style.display = 'block';
         document.getElementById("timer").innerHTML = 'Time:Start the Quiz!';
         document.getElementById("question").innerHTML = 'Welcome to the Javascript Code Quiz!';
         document.getElementById("instructions").style.display = 'flex';
         document.getElementById("instructions").innerHTML = 'Try answering the folowing Javascript code reatled questions within the time limit. <br> Incorrect asnwers will cause a 10 second penalty. <br> Your time left is your Score!';
+        pickedAnswer = null
         startPage();
     });
 
@@ -313,6 +301,7 @@ var scoreScreen = function(){
 
 var startPage = function () {
     var startDivEl = document.createElement("div")
+    startDivEl.className = "container"
     bodyEl.appendChild(startDivEl);
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
@@ -327,6 +316,7 @@ var startPage = function () {
 scoresEl.addEventListener("click", function(){
     document.getElementById("start-button").style.display = 'none';
     scoreScreen()
+    endTimer()
 });
 
 startPage()

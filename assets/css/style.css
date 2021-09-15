@@ -2,6 +2,10 @@ header {
 display: flex;
 justify-content: space-between;
 }
+body{
+    display:flex;
+    flex-direction:column;
+}
 .header {
     padding:1%;
     display: inline-flex;
@@ -36,15 +40,18 @@ justify-content: space-between;
 }
 .choices{
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
     text-align: center;
-    justify-content: center;
+    justify-content: flex-start;
+    width: 200px;
+    align-self:center;
 }
 .choices button{
-    text-align: center;
+    text-align: left;
     width: auto;
     font-size: large;
+    margin: 3px;
 }
 .submit-div{
     display: flex;
@@ -57,13 +64,64 @@ justify-content: space-between;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    text-align: center;
-    justify-content: center;
+    text-align: left;
+    justify-content: left;
     width: 100%;
+    flex-direction: column;
 }
 #scoreScreenEl button{
     background-color: blueviolet;
     color: white;
     font-size: larger;
     border-radius: 5px;
+}
+#scoresRecordEl{
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+.scoreLi{
+    list-style-position: inside;
+    background-color: #cc99ff ;
+    margin: 3px;
+    padding: 2px;
+    justify-content: left;
+    font-size: larger;
+}
+.class{
+    color: blueviolet;
+}
+.class:hover{
+    color: violet;
+}
+.btn{
+    background-color: blueviolet;
+    color: white;
+    font-size: larger;
+    border-radius: 5px;   
+}
+.btn:hover{
+    background-color: violet;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+.correct{
+    font-size: xx-large;
+    color: gray;
+    margin: 0 20% 0 20%;
+    border-top: gray solid 3px;
+    margin-top: 10px;
+}
+.scoreListEl{
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
 }
