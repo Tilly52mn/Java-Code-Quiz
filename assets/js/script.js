@@ -20,10 +20,6 @@ var scoreIdCounter = 0
 var timerId = null
 var pickedAnswer = null
 
-// Issues left :
-//Timer wont stop
-// after restarting things start to blowup
-
 var questions = [
     {
         id: "0",
@@ -69,7 +65,8 @@ function timer() {
         document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
         sec--;
         if (sec < 0) {
-            clearInterval(timerId);
+            endTimer()
+            finishedScreen()
         }
     }, 1000);
     return sec
@@ -117,7 +114,6 @@ quiz()
             document.getElementById('correct').innerHTML = "Correct!"
             i++;
             score = sec;
-            // pickedAnswer = null;
             setTimeout(() => { quiz(); }, 1000);
             setTimeout(() => { document.getElementById('correct').innerHTML = ""; }, 1000);
             setTimeout(() => { correctEl.style.display = "none"},1000)
@@ -148,12 +144,7 @@ quiz()
 
  var endTimer =function(){
      clearInterval(timerId);
-    var timerFinishedEl = document.createElement("p");
-    timerEl.style.display = "none"
-    timerFinishedEl.className = "finished";
-    timerFinishedEl.id = "finished";
-    timerFinishedEl.innerHTML = "Time: Finished!"
-    headerEl.appendChild(timerFinishedEl);
+    timerEl.innerHTML = "Time: Finished!"
 }
 
 var finishedScreen = function(){
@@ -272,7 +263,6 @@ var scoreScreen = function(){
         scoreObj = []
         scoreIdCounter = 0 
         if(pickedAnswer !== null, function(){
-            document.getElementById("finished").remove();
             document.getElementById("start-button").remove();
             document.getElementById("one").remove();
             document.getElementById("submit-p").remove();
@@ -289,6 +279,7 @@ var scoreScreen = function(){
         document.getElementById("instructions").style.display = 'flex';
         document.getElementById("instructions").innerHTML = 'Try answering the folowing Javascript code reatled questions within the time limit. <br> Incorrect asnwers will cause a 10 second penalty. <br> Your time left is your Score!';
         pickedAnswer = null
+
         startPage();
     });
 
@@ -302,13 +293,15 @@ var scoreScreen = function(){
 var startPage = function () {
     var startDivEl = document.createElement("div")
     startDivEl.className = "container"
+    startDivEl.id = "container"
     bodyEl.appendChild(startDivEl);
     var startButtonEl = document.createElement("button");
     startButtonEl.textContent = "Start Quiz!";
     startButtonEl.className = "btn start-quiz";
     startButtonEl.id = "start-button"
     startDivEl.appendChild(startButtonEl);
-    document.getElementById("start-button").addEventListener("click", function () {
+    startButtonEl.addEventListener("click", function () {
+        document.getElementById("container").remove();
         timer();
         quizStart();
     });
