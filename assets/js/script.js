@@ -71,16 +71,11 @@ var questions = [
     },
 ]
 correctEl.style.display = "none";
-var timer =function () {
-     timerId = setInterval(function () {
-        document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
-        sec--;
-        if (sec < 0) {
-            finishedScreen()
-        }
-    }, 1000);
-    return sec;
-};
+
+// var timer =function () {
+
+//     return sec;
+// };
 var quizStart = function () {
 
         instructionsEl.style.display = "none"
@@ -194,6 +189,7 @@ var finishedScreen = function(){
     console.log("score " +score);
 
     submitButtonEl.addEventListener("click", function(){
+        highScores = []
         var initialsInput = document.querySelector("input[name='initals']").value
         console.log(initialsInput);
         scoreObj = {
@@ -285,9 +281,8 @@ if (highScores !== null){
             document.getElementById("four").style.display = 'none';
             document.getElementById("submit-div").style.display = 'none';
             document.getElementById("container").style.display = 'none';
-            
-        this.removeEventListener
-        document.getElementById("scoreScreenEl").remove();
+            document.getElementById("scoreScreenEl").style.display = 'none';
+            this.removeEventListener
         document.getElementById("timer").style.display = 'block';
         document.getElementById("timer").innerHTML = 'Time:Start the Quiz!';
         document.getElementById("question").innerHTML = 'Welcome to the Javascript Code Quiz!';
@@ -320,12 +315,19 @@ var startPage = function () {
     document.getElementById("start-button").style.display = 'flex'
     document.getElementById("start-button").addEventListener("click", function () {
         document.getElementById("container").style.display = 'none';
-        timer();
+        timerId = setInterval(function () {   
+            if(timerId != null)endTimer()
+                document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
+                sec--;
+                if (sec < 0) {
+                    finishedScreen()
+                }
+            }, 1000);
         quizStart();
     });
 }
 scoresEl.addEventListener("click", function(){
-    endTimer()
+    endTimer();
     document.getElementById("start-button").style.display = 'none';
     
     document.getElementById("one").style.display = 'none';
