@@ -21,9 +21,30 @@
         </p>      
     </div>
     <div class="choices" id = "choices">
+        <button class="btn btn-one" id="one" style="display:none;">1. strings</button>
+        <button class="btn btn-two" id="two" style="display:none;">2. booleans</button>
+        <button class="btn btn-three" id="three" style="display:none;">3. alerts</button>
+        <button class="btn btn-four" id="four" style="display:none;">4. numbers</button>
     </div>
     <div id ="correct" class = "correct">
     </div>
+    <div class="container" id="container" style="display: none;">
+        <button class="btn start-quiz" id="start-button" ">Start Quiz!</button>
+    </div>
+    <div class="submit-div" id="submit-div" style="display:none;">
+        <p id="submit-p">Enter initials: </p>
+        <input type="text" name="initals"><button class="btn btn-submit" id="submit-btn">Submit</button>
+    </div>
+    <div id="scoreScreenEl" style="display:none;">
+        <div id="scoresRecordEl"
+        ><ol class="scoreListEl" id="scoreListEl">
+        </ol>
+    </div>
+    <div id="scoreScreenButtonsEl">
+        <button class="btn go-back" id="back-btn">Go Back</button>
+        <button class="btn clear-btn" id="clear-btn">Clear high scores</button>
+    </div>
+</div>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 var scoresEl = document.getElementById("scores");
+var startDivEl = document.getElementById("container");
 var instructionsEl = document.getElementById("instructions");
 var questionsEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
@@ -6,11 +7,22 @@ var headerEl = document.getElementById("header");
 var bodyEl = document.getElementById("body");
 var correctEl = document.getElementById("correct");
 var timerEl = document.getElementById("timer");
-var submitDivEl = null;
-var answer1ButtonEl = null;
-var answer2ButtonEl = null;
-var answer3ButtonEl = null;
-var answer4ButtonEl = null;
+var answer1ButtonEl = document.getElementById("one");
+var answer2ButtonEl = document.getElementById("two");
+var answer3ButtonEl = document.getElementById("three");
+var answer4ButtonEl = document.getElementById("four");
+var submitDivEl = document.getElementById("submit-div");
+var scoreScreenEl = document.getElementById("scoreScreenEl");
+var scoresRecordEl = document.getElementById("scoresRecordEl");
+var scoreScreenButtonsEl = document.getElementById("scoreScreenButtonsEl");
+ var goBackButtonEl =document.getElementById("back-btn");
+ var clearScoresButtonEl = document.getElementById("clear-btn");
+ var scoreListEl = document.getElementById("scoreListEl")
+ var submitButtonEl =document.getElementById("submit-btn")
+// var answer1ButtonEl = null;
+// var answer2ButtonEl = null;
+// var answer3ButtonEl = null;
+// var answer4ButtonEl = null;
 var sec = 59;
 var i = 0;
 var score = 0;
@@ -59,46 +71,45 @@ var questions = [
     },
 ]
 correctEl.style.display = "none";
-
-function timer() {
+var timer =function () {
      timerId = setInterval(function () {
         document.getElementById('timer').innerHTML = 'Time Left: ' + sec;
         sec--;
         if (sec < 0) {
-            endTimer()
             finishedScreen()
         }
     }, 1000);
-    return sec
-}
+    return sec;
+};
 var quizStart = function () {
 
         instructionsEl.style.display = "none"
         document.getElementById("start-button").style.display = 'none';
 
-        answer1ButtonEl = document.createElement("button");
-        answer1ButtonEl.className = "btn btn-one";
-        answer1ButtonEl.id = "one";
-        choicesEl.appendChild(answer1ButtonEl);
-        var answer1El = document.querySelector(".btn-one");
-
-        answer2ButtonEl = document.createElement("button");
-        answer2ButtonEl.className = "btn btn-two";
-        answer2ButtonEl.id = "two";
-        choicesEl.appendChild(answer2ButtonEl);
-        var answer2El = document.querySelector(".btn-two");
-
-        answer3ButtonEl = document.createElement("button");
-        answer3ButtonEl.className = "btn btn-three";
-        answer3ButtonEl.id = "three";
-        choicesEl.appendChild(answer3ButtonEl);
-        var answer3El = document.querySelector(".btn-three");
-
-        answer4ButtonEl = document.createElement("button");
-        answer4ButtonEl.className = "btn btn-four";
-        answer4ButtonEl.id = "four";
-        choicesEl.appendChild(answer4ButtonEl);
-        var answer4El = document.querySelector(".btn-four");
+        answer1ButtonEl.style.display = 'flex'
+        // answer1ButtonEl = document.createElement("button");
+        // answer1ButtonEl.className = "btn btn-one";
+        // answer1ButtonEl.id = "one";
+        // choicesEl.appendChild(answer1ButtonEl);
+        // var answer1El = document.querySelector(".btn-one");
+        answer2ButtonEl.style.display = 'flex'
+        // answer2ButtonEl = document.createElement("button");
+        // answer2ButtonEl.className = "btn btn-two";
+        // answer2ButtonEl.id = "two";
+        // choicesEl.appendChild(answer2ButtonEl);
+        // var answer2El = document.querySelector(".btn-two");
+        answer3ButtonEl.style.display = 'flex'
+        // answer3ButtonEl = document.createElement("button");
+        // answer3ButtonEl.className = "btn btn-three";
+        // answer3ButtonEl.id = "three";
+        // choicesEl.appendChild(answer3ButtonEl);
+        // var answer3El = document.querySelector(".btn-three");
+        answer4ButtonEl.style.display = 'flex'
+        // answer4ButtonEl = document.createElement("button");
+        // answer4ButtonEl.className = "btn btn-four";
+        // answer4ButtonEl.id = "four";
+        // choicesEl.appendChild(answer4ButtonEl);
+        // var answer4El = document.querySelector(".btn-four");
 
 
 quiz()
@@ -138,7 +149,7 @@ quiz()
    answer4ButtonEl.textContent = questions[i].four;
     correctAnswer = questions[i].correct
     }
-      else {  endTimer();
+      else {  
         finishedScreen(); }
 }
 
@@ -148,7 +159,7 @@ quiz()
 }
 
 var finishedScreen = function(){
-     
+    endTimer();
     answer1ButtonEl.style.display = "none";
     answer2ButtonEl.style.display = "none";
     answer3ButtonEl.style.display = "none";
@@ -158,27 +169,27 @@ var finishedScreen = function(){
     questionsEl.textContent = "All done!";
     instructionsEl.style.display = "block";
     instructionsEl.innerHTML = "Your final score is " + score;
+    submitDivEl.style.display = "flex";
+    // submitDivEl = document.createElement("div");
+    // submitDivEl.className = "submit-div";
+    // submitDivEl.id = "submit-div";
+    // bodyEl.appendChild(submitDivEl);
 
-    submitDivEl = document.createElement("div");
-    submitDivEl.className = "submit-div";
-    submitDivEl.id = "submit-div";
-    bodyEl.appendChild(submitDivEl);
+    // var submitInstructionsEl = document.createElement("p");
+    // submitInstructionsEl.textContent = "Enter initials: "
+    // submitInstructionsEl.id = "submit-p";
+    // submitDivEl.appendChild(submitInstructionsEl);
 
-    var submitInstructionsEl = document.createElement("p");
-    submitInstructionsEl.textContent = "Enter initials: "
-    submitInstructionsEl.id = "submit-p";
-    submitDivEl.appendChild(submitInstructionsEl);
+    // var submitBoxEl = document.createElement("input");
+    // submitBoxEl.type = "text";
+    // submitBoxEl.name = "initals";
+    // submitDivEl.appendChild(submitBoxEl);
 
-    var submitBoxEl = document.createElement("input");
-    submitBoxEl.type = "text";
-    submitBoxEl.name = "initals";
-    submitDivEl.appendChild(submitBoxEl);
-
-    var submitButtonEl = document.createElement("button");
-    submitButtonEl.textContent = "Submit";
-    submitButtonEl.className = "btn btn-submit";
-    submitButtonEl.id = "submit-btn";
-    submitDivEl.appendChild(submitButtonEl);
+    // var submitButtonEl = document.createElement("button");
+    // submitButtonEl.textContent = "Submit";
+    // submitButtonEl.className = "btn btn-submit";
+    // submitButtonEl.id = "submit-btn";
+    // submitDivEl.appendChild(submitButtonEl);
 
     console.log("score " +score);
 
@@ -211,21 +222,26 @@ var scoreScreen = function(){
     questionsEl.textContent = "High scores";
     instructionsEl.style.display = "none";
 
-    var scoreScreenEl = document.createElement("div");
-    scoreScreenEl.id = "scoreScreenEl";
-    bodyEl.appendChild(scoreScreenEl);
+    
+    scoreScreenEl.style.display = "flex";
+    // var scoreScreenEl = document.createElement("div");
+    // scoreScreenEl.id = "scoreScreenEl";
+    // bodyEl.appendChild(scoreScreenEl);
+    scoresRecordEl.style.display = "flex";
+    // var scoresRecordEl = document.createElement("div");
+    // scoresRecordEl.id = "scoresRecordEl";
+    // scoreScreenEl.appendChild(scoresRecordEl);
 
-    var scoresRecordEl = document.createElement("div");
-    scoresRecordEl.id = "scoresRecordEl";
-    scoreScreenEl.appendChild(scoresRecordEl);
+    scoreScreenButtonsEl.style.display = "flex";
+    // var scoreScreenButtonsEl = document.createElement("div");
+    // scoreScreenButtonsEl.id = "scoreScreenButtonsEl";
+    // scoreScreenEl.appendChild(scoreScreenButtonsEl);
 
-    var scoreScreenButtonsEl = document.createElement("div");
-    scoreScreenButtonsEl.id = "scoreScreenButtonsEl";
-    scoreScreenEl.appendChild(scoreScreenButtonsEl);
-
-    var scoreListEl = document.createElement("ol")
-    scoreListEl.className = "scoreListEl";
-    scoreListEl.id = "scoreListEl";
+    scoreListEl.style.display = "flex";
+    // var scoreListEl = document.createElement("ol")
+    // scoreListEl.className = "scoreListEl";
+    // scoreListEl.id = "scoreListEl";
+if (highScores !== null){
     highScores.sort((a,b) => {
         return b.roundscore - a.roundscore;
     });
@@ -237,40 +253,39 @@ var scoreScreen = function(){
     scoreListEl.appendChild(scoreRecordEl);
     }
     scoresRecordEl.appendChild(scoreListEl);
+}
+    // scoreListEl.style.display = "flex";
+    // var goBackButtonEl = document.createElement("button");
+    // goBackButtonEl.textContent = "Go Back";
+    // goBackButtonEl.className = "btn go-back";
+    // goBackButtonEl.id = "back-btn";
+    // scoreScreenButtonsEl.appendChild(goBackButtonEl);
 
-    var goBackButtonEl = document.createElement("button");
-    goBackButtonEl.textContent = "Go Back";
-    goBackButtonEl.className = "btn go-back";
-    goBackButtonEl.id = "back-btn";
-    scoreScreenButtonsEl.appendChild(goBackButtonEl);
-
-    var clearScoresButtonEl = document.createElement("button");
-    clearScoresButtonEl.textContent = "Clear high scores";
-    clearScoresButtonEl.className = "btn clear-btn";
-    clearScoresButtonEl.id = "clear-btn";
-    scoreScreenButtonsEl.appendChild(clearScoresButtonEl);
+    // var clearScoresButtonEl = document.createElement("button");
+    // clearScoresButtonEl.textContent = "Clear high scores";
+    // clearScoresButtonEl.className = "btn clear-btn";
+    // clearScoresButtonEl.id = "clear-btn";
+    // scoreScreenButtonsEl.appendChild(clearScoresButtonEl);
 
     goBackButtonEl.addEventListener("click", function(){
-         submitDivEl = null;
         i = 0;
-        answer1ButtonEl = null;
-        answer2ButtonEl = null;
-        answer3ButtonEl = null;
-        answer4ButtonEl = null;
+        // answer1ButtonEl = null;
+        // answer2ButtonEl = null;
+        // answer3ButtonEl = null;
+        // answer4ButtonEl = null;
         sec = 59;
         score = 0;
         highScores = []
         scoreObj = []
         scoreIdCounter = 0 
-        if(pickedAnswer !== null, function(){
-            document.getElementById("start-button").remove();
-            document.getElementById("one").remove();
-            document.getElementById("submit-p").remove();
-            document.getElementById("two").remove();
-            document.getElementById("three").remove();
-            document.getElementById("four").remove();
-            document.getElementById("submit-div").remove();
-        })
+
+            document.getElementById("one").style.display = 'none';
+            document.getElementById("two").style.display = 'none';
+            document.getElementById("three").style.display = 'none';
+            document.getElementById("four").style.display = 'none';
+            document.getElementById("submit-div").style.display = 'none';
+            document.getElementById("container").style.display = 'none';
+            
         this.removeEventListener
         document.getElementById("scoreScreenEl").remove();
         document.getElementById("timer").style.display = 'block';
@@ -291,25 +306,36 @@ var scoreScreen = function(){
 }
 
 var startPage = function () {
-    var startDivEl = document.createElement("div")
-    startDivEl.className = "container"
-    startDivEl.id = "container"
-    bodyEl.appendChild(startDivEl);
-    var startButtonEl = document.createElement("button");
-    startButtonEl.textContent = "Start Quiz!";
-    startButtonEl.className = "btn start-quiz";
-    startButtonEl.id = "start-button"
-    startDivEl.appendChild(startButtonEl);
-    startButtonEl.addEventListener("click", function () {
-        document.getElementById("container").remove();
+    // var startDivEl = document.createElement("div")
+    // startDivEl.className = "container"
+    // startDivEl.id = "container"
+    // bodyEl.appendChild(startDivEl);
+    // var startButtonEl = document.createElement("button");
+    // startButtonEl.textContent = "Start Quiz!";
+    // startButtonEl.className = "btn start-quiz";
+    // startButtonEl.id = "start-button"
+    // startDivEl.appendChild(startButtonEl);
+    correctEl.style.display = 'none'
+    startDivEl.style.display = 'flex'
+    document.getElementById("start-button").style.display = 'flex'
+    document.getElementById("start-button").addEventListener("click", function () {
+        document.getElementById("container").style.display = 'none';
         timer();
         quizStart();
     });
 }
 scoresEl.addEventListener("click", function(){
-    document.getElementById("start-button").style.display = 'none';
-    scoreScreen()
     endTimer()
+    document.getElementById("start-button").style.display = 'none';
+    
+    document.getElementById("one").style.display = 'none';
+    document.getElementById("two").style.display = 'none';
+    document.getElementById("three").style.display = 'none';
+    document.getElementById("four").style.display = 'none';
+    scoreScreen()
 });
 
 startPage()
+
+//Start Button wont go away after first run or visit to score screen
+//can't visit the score screen mid test
